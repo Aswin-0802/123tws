@@ -7,12 +7,12 @@ import { Lottie } from "@/components/ui/Lottie";
 import { HeroMotion } from "./HeroMotion";
 
 /*
- * Layout follows the live homepage: headline, intro, partner badges, button; the banner animation
- * on the right with the DesignRush badge.
+ * Layout follows the live homepage: headline, intro, partner badges + DesignRush seal, button;
+ * the banner animation on the right.
  * Load (pure CSS so the h1 and badges never wait on JS):
  *   headline lines rise through masks 0.2s + 0.09s/line, intro 0.7s, partner strip wipes in 0.8s,
- *   button 0.92s; the animation frame wipes up 0.25s (the Lottie itself loads when idle),
- *   the badge wipes in 0.7s then floats gently.
+ *   DesignRush seal 1s (then floats gently), button 0.92s; the animation frame wipes up 0.25s
+ *   (the Lottie itself loads when idle).
  * Scroll: HeroMotion moves copy, animation and badge at different speeds.
  */
 export function Hero() {
@@ -41,16 +41,31 @@ export function Hero() {
             {hero.text}
           </p>
 
-          <div className="hero-clip-left mt-7 max-w-[520px]" style={{ "--d": "0.8s" } as CSSProperties}>
-            <Image
-              src={hero.partners.src}
-              alt={hero.partners.alt}
-              width={hero.partners.width}
-              height={hero.partners.height}
-              preload
-              sizes="(min-width: 640px) 520px, 92vw"
-              className="h-auto w-full"
-            />
+          {/* Trust row: partner badges with the DesignRush seal at the end, as one group */}
+          <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-4">
+            <div className="hero-clip-left w-full max-w-[460px]" style={{ "--d": "0.8s" } as CSSProperties}>
+              <Image
+                src={hero.partners.src}
+                alt={hero.partners.alt}
+                width={hero.partners.width}
+                height={hero.partners.height}
+                preload
+                sizes="(min-width: 640px) 460px, 92vw"
+                className="h-auto w-full"
+              />
+            </div>
+            <div className="hero-clip w-[78px] shrink-0 md:w-[88px]" style={{ "--d": "1s" } as CSSProperties}>
+              <div className="hero-float">
+                <Image
+                  src={hero.badge.src}
+                  alt={hero.badge.alt}
+                  width={hero.badge.width}
+                  height={hero.badge.height}
+                  sizes="88px"
+                  className="h-auto w-full"
+                />
+              </div>
+            </div>
           </div>
 
           <div className="hero-fade mt-8" style={{ "--d": "0.92s" } as CSSProperties}>
@@ -60,7 +75,7 @@ export function Hero() {
           </div>
         </div>
 
-        {/* The live banner animation, with the DesignRush badge as a floating seal */}
+        {/* The live banner animation */}
         <div className="relative lg:col-span-5">
           <div data-hero-main className="hero-clip" style={{ "--d": "0.25s" } as CSSProperties}>
             <Lottie
@@ -70,18 +85,6 @@ export function Hero() {
               label={hero.animation.label}
               className="w-full"
             />
-          </div>
-          <div data-hero-badge className="hero-clip absolute -bottom-4 left-0 w-[96px] md:w-[120px] lg:-left-6 lg:w-[132px]" style={{ "--d": "0.7s" } as CSSProperties}>
-            <div className="hero-float">
-              <Image
-                src={hero.badge.src}
-                alt={hero.badge.alt}
-                width={hero.badge.width}
-                height={hero.badge.height}
-                sizes="132px"
-                className="h-auto w-full drop-shadow-[0_18px_24px_rgb(43_42_41/0.2)]"
-              />
-            </div>
           </div>
         </div>
       </div>

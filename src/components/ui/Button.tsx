@@ -15,7 +15,7 @@ type Variant = "primary" | "outline" | "light" | "blue";
 type Size = "md" | "sm" | "pill";
 
 const base =
-  "group/btn relative isolate inline-flex items-center justify-center overflow-hidden font-sans font-semibold whitespace-nowrap transition-[transform,color,border-color] duration-500 ease-expo active:scale-[0.97]";
+  "group/btn relative isolate inline-flex items-center justify-center overflow-hidden font-sans font-semibold whitespace-nowrap select-none transition-[transform,color,border-color] duration-500 ease-expo active:scale-[0.97]";
 
 const sizes: Record<Size, string> = {
   md: "h-[54px] gap-2 rounded-[12px] px-10 text-[16px]",
