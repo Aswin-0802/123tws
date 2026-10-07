@@ -1,0 +1,255 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/* Tokens: matched to the live 123tws.com theme (light only)           */
+/* ------------------------------------------------------------------ */
+:root {
+  --bg: #ffffff;
+  --surface: #f5f6f9;
+  --fg: #2b2a29; /* headings */
+  --text: #454545; /* body copy */
+  --muted: #5e5d5c;
+  --line: rgb(43 42 41 / 0.12);
+  --accent: #e84748; /* brand red: large type, icons, fills */
+  --accent-strong: #d93738; /* buttons + small red text (4.6:1 with white) */
+  --cream: #f3eed9; /* counters + call-to-action band */
+  --mist: #eef2f9; /* why-choose band */
+  --footer: #f5f6f9;
+  --blue: #335ffc; /* training pill */
+  --card-shadow: 0 0 10px 0 rgb(204 204 204);
+  --card-shadow-hover: 0 18px 40px -12px rgb(43 42 41 / 0.22);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* z-index scale */
+  --z-base: 1;
+  --z-float: 40;
+  --z-header: 50;
+  --z-menu: 60;
+  --z-skip: 70;
+
+  --header-h: 84px;
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-cream: var(--cream);
+  --color-mist: var(--mist);
+  --color-footer: var(--footer);
+  --color-blue: var(--blue);
+  --font-display: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-livvic), ui-sans-serif, system-ui, sans-serif;
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                */
+/* ------------------------------------------------------------------ */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* The site's red line icons (SVG) turn white when their card fills red on hover. */
+.group:hover .icon-invert,
+.group:focus-visible .icon-invert {
+  filter: brightness(0) invert(1);
+}
+.icon-invert {
+  transition: filter 0.5s var(--ease-out-expo), transform 0.7s var(--ease-out-expo);
+}
+
+.card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: var(--card-shadow);
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+/* Word masks used by line reveals. Padding keeps descenders from clipping. */
+.w {
+  display: inline-block;
+  overflow: clip;
+  vertical-align: top;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+.w > span {
+  display: inline-block;
+  will-change: transform;
+}
+
+.skip-link {
+  position: fixed;
+  left: 16px;
+  top: 12px;
+  z-index: var(--z-skip);
+  transform: translateY(-160%);
+  transition: transform 0.3s var(--ease-out-expo);
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* ------------------------------------------------------------------ */
+/* Hero entrance: pure CSS so first paint and LCP never wait on JS.    */
+/* ------------------------------------------------------------------ */
+@keyframes rise {
+  from {
+    transform: translate3d(0, 112%, 0) rotate(3deg);
+  }
+  to {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes clipUp {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes clipLeft {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes settle {
+  from {
+    transform: scale(1.28);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes dropIn {
+  from {
+    transform: translate3d(0, -100%, 0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-float {
+    animation: float 5s ease-in-out 1.6s infinite;
+  }
+  .hero-line > span {
+    animation: rise 1.15s var(--ease-out-expo) both;
+    animation-delay: calc(0.2s + var(--i, 0) * 0.09s);
+  }
+  .hero-fade {
+    animation: fadeUp 1s var(--ease-out-expo) both;
+    animation-delay: var(--d, 0.65s);
+  }
+  .hero-clip {
+    animation: clipUp 1.35s var(--ease-in-out) both;
+    animation-delay: var(--d, 0.15s);
+  }
+  .hero-clip-left {
+    animation: clipLeft 1.2s var(--ease-in-out) both;
+    animation-delay: var(--d, 0.5s);
+  }
+  .hero-clip > .settle,
+  .hero-clip-left > .settle {
+    animation: settle 2s var(--ease-out-expo) both;
+    animation-delay: var(--d, 0.15s);
+  }
+  .header-enter {
+    animation: dropIn 0.9s var(--ease-out-expo) both;
+    animation-delay: 0.05s;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* JS-driven reveal initial states.                                    */
+/* Only applied when JS is running and motion is allowed (.motion-ok), */
+/* so content is always visible to crawlers, no-JS and reduced motion. */
+/* ------------------------------------------------------------------ */
+.motion-ok [data-reveal="fade-up"] {
+  opacity: 0;
+  transform: translate3d(0, 48px, 0);
+}
+.motion-ok [data-reveal="fade"] {
+  opacity: 0;
+}
+.motion-ok [data-reveal="lines"] .w > span {
+  transform: translate3d(0, 112%, 0);
+}
+.motion-ok [data-reveal="image"] {
+  clip-path: inset(100% 0 0 0);
+}
+.motion-ok [data-reveal="box"] {
+  clip-path: inset(12% 8% 12% 8% round 20px);
+  opacity: 0;
+}
+.motion-ok [data-reveal="blur"] {
+  opacity: 0;
+  filter: blur(12px);
+}
