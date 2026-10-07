@@ -1,6 +1,6 @@
 "use client";
 
-import { CaretDown, EnvelopeSimple, List, Phone } from "@phosphor-icons/react";
+import { EnvelopeSimple, List, Phone } from "@phosphor-icons/react";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -106,22 +106,22 @@ export function Header() {
         className="group/header fixed inset-x-0 top-0 z-[var(--z-header)] transition-transform duration-700 ease-expo data-[hidden=true]:-translate-y-full"
         onPointerLeave={scheduleClose}
       >
-        <div className="header-enter relative bg-white transition-shadow duration-500 group-data-[scrolled=true]/header:shadow-[0_8px_30px_-12px_rgb(43_42_41/0.18)]">
+        <div className="header-enter relative bg-transparent transition-[background-color,box-shadow] duration-500 group-data-[scrolled=true]/header:bg-white group-data-[scrolled=true]/header:shadow-[0_8px_30px_-12px_rgb(43_42_41/0.18)]">
           {/* Contact strip: collapses once the page scrolls */}
           <div className="hidden grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-expo group-data-[scrolled=true]/header:grid-rows-[0fr] lg:grid">
             <div className="overflow-hidden">
-              <div className="mx-auto flex h-11 max-w-[1320px] items-center justify-between border-b border-line px-6 text-[13px] text-text">
+              <div className="mx-auto flex h-11 max-w-[1320px] items-center justify-between px-6 text-[14px] text-accent-strong">
                 <ul className="flex items-center gap-6">
                   <li>
-                    <a href={`mailto:${site.email}`} className="inline-flex items-center gap-2 transition-colors hover:text-accent-strong">
-                      <EnvelopeSimple aria-hidden className="size-4 text-accent" />
+                    <a href={`mailto:${site.email}`} className="inline-flex items-center gap-2 transition-colors hover:text-fg">
+                      <EnvelopeSimple aria-hidden className="size-4 text-fg" />
                       {site.email}
                     </a>
                   </li>
                   {site.phones.map((p) => (
                     <li key={p.href}>
-                      <a href={p.href} className="inline-flex items-center gap-2 transition-colors hover:text-accent-strong">
-                        <Phone aria-hidden className="size-4 text-accent" />
+                      <a href={p.href} className="inline-flex items-center gap-2 transition-colors hover:text-fg">
+                        <Phone aria-hidden className="size-4 text-fg" />
                         {p.label}
                       </a>
                     </li>
@@ -161,7 +161,6 @@ export function Header() {
                         className={`group/trigger ${navLink}`}
                       >
                         {item.label}
-                        <CaretDown aria-hidden weight="bold" className="size-3 transition-transform duration-500 ease-expo group-aria-expanded/trigger:rotate-180" />
                       </button>
                     </li>
                   ) : (
